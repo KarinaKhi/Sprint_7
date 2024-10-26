@@ -12,7 +12,7 @@ class TestOrderList:
 
     def test_get_orders_list_assert_not_empty_response_with_courier_id(self):
         response = requests.get(f'{BASE_URL}{ORDER_LIST_LINK}', params=courier_id_data_for_get_request)
-        assert response.status_code == 200, "Код ответа при запросе списка заказов неверен"
+        assert response.status_code == 200, f"Запрос на создание заказа вернул статус {response.status_code}"
         response_data = response.json()
 
         assert isinstance(response_data, dict), "Ответ должен быть в формате JSON-объекта"

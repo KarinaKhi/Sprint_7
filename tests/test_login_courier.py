@@ -45,5 +45,5 @@ class TestCourierLogin:
             "password": incorrect_password
         }
         response = requests.post(f'{BASE_URL}{COURIER_LOGIN_LINK}', json=incorrect_password_data)
-        assert response.status_code == 404, "Код ответа при неверном пароле неверен"
+        assert response.status_code == 404, f"Запрос на создание заказа вернул статус {response.status_code}"
         assert "message" in response.json(), "Ответ не содержит сообщение об ошибке при неверном пароле"
