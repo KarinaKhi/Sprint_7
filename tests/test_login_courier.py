@@ -2,18 +2,12 @@ import pytest
 import requests
 from register_user import register_new_courier_and_return_login_password
 from test_data import BASE_URL, COURIER_LOGIN_LINK
-
-
-@pytest.fixture
-def courier_data():
-    data = register_new_courier_and_return_login_password()
-    assert data, "Не удалось создать нового курьера"
-    return {"login": data[0], "password": data[1]}
+from conftest import *
 
 
 class TestCourierLogin:
-    def test_courier_login_success(self, courier_data):
-        login_data = {"login": courier_data["login"], "password": courier_data["password"]}
+    def test_courier_login_success(self, courier_data_login):
+        login_data = {"login": courier_data_login["login"], "password": courier_data_login["password"]}
         response = requests.post(f'{BASE_URL}{COURIER_LOGIN_LINK}', json=login_data)
         assert response.status_code == 200, "Код ответа при успешной авторизации курьера неверен"
         assert "id" in response.json(), "Ответ не содержит id"
@@ -36,14 +30,13 @@ class TestCourierLogin:
         assert response.status_code == 400, "Код ответа при отсутствии поля password неверен"
         assert "message" in response.json(), "Ответ не содержит сообщение об ошибке"
 
-    def test_login_with_incorrect_password(self, courier_data):
-        courier_data = register_new_courier_and_return_login_password()
-        correct_login = courier_data[0]
+    def test_login_with_incorrect_password(self, courier_data_login):
+        correct_login = courier_data_login["login"]
         incorrect_password = "wrongpass12345"
         incorrect_password_data = {
             "login": correct_login,
             "password": incorrect_password
         }
         response = requests.post(f'{BASE_URL}{COURIER_LOGIN_LINK}', json=incorrect_password_data)
-        assert response.status_code == 404, f"Запрос на создание заказа вернул статус {response.status_code}"
+        assert response.status_code == 404, "Запрос на авторизацию курьера с неверным паролем вернул неверный статус"
         assert "message" in response.json(), "Ответ не содержит сообщение об ошибке при неверном пароле"

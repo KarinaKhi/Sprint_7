@@ -4,13 +4,6 @@ import requests
 from test_data import BASE_URL, ORDER_LIST_LINK, ORDER_DATA_SET_1_BLACK, ORDER_DATA_SET_2_NO_COLOR, \
     ORDER_DATA_SET_3_GREY_AND_BLACK, ORDER_DATA_SET_4_GREY
 
-
-@pytest.fixture(scope="module")
-def load_order_data():
-    with open("order_data.json") as f:
-        return json.load(f)
-
-
 class TestCreateOrder:
 
     @pytest.mark.parametrize("order",
