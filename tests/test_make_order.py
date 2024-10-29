@@ -1,17 +1,16 @@
 import pytest
 import json
 import requests
-from test_data import BASE_URL, ORDER_LIST_LINK, ORDER_DATA_SET_1_BLACK, ORDER_DATA_SET_2_NO_COLOR, \
+from data import BASE_URL, ORDER_LINK, ORDER_DATA_SET_1_BLACK, ORDER_DATA_SET_2_NO_COLOR, \
     ORDER_DATA_SET_3_GREY_AND_BLACK, ORDER_DATA_SET_4_GREY
+from methods.order_methods import OrderMethods
+from conftest import *
+
 
 class TestCreateOrder:
-
     @pytest.mark.parametrize("order",
                              [ORDER_DATA_SET_1_BLACK, ORDER_DATA_SET_2_NO_COLOR, ORDER_DATA_SET_3_GREY_AND_BLACK,
                               ORDER_DATA_SET_4_GREY])
-    def test_create_order(self, order):
-        response = requests.post(f"{BASE_URL}{ORDER_LIST_LINK}", json=order)
-        response_data = response.json()
-        assert response.status_code == 201, f"Запрос на создание заказа вернул статус {response.status_code}"
-        assert "track" in response_data, f"Ответ не содержит track при цветах {order['color']}"
-        assert response_data["track"] is not None, "Значение track не должно быть пустым"
+    def test_create_order(self, order, order_methods):
+        status_code, response_data = order_methods.post_order(order)
+        assert status_code == 201 and response_data.get("track") is not None, f"Ошибка при создании заказа"
