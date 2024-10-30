@@ -32,8 +32,7 @@ def courier_data_login():
         login_pass.append(data["password"])
         courier_id = response.json().get("id")
     yield {"login": login_pass[0], "password": login_pass[1]}
-    if courier_id:
-        courier_methods.delete_courier(courier_id)
+    courier_methods.delete_courier(courier_id)
 
 
 @pytest.fixture()

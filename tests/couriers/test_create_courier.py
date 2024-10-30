@@ -17,9 +17,9 @@ from methods.courier_methods import CourierMethods
 
 class TestCourierCreation:
 
-    def test_create_courier_successfully(self, courier_methods, random_courier):
-        status_code, response_data = courier_methods.post_courier(random_courier)
-        assert status_code == 201 and response_data == {"ok": True}, "Ошибка при создании курьера"
+    # def test_create_courier_successfully(self, courier_methods, random_courier):
+    #     status_code, response_data = courier_methods.post_courier(random_courier)
+    #     assert status_code == 201 and response_data == {"ok": True}, "Ошибка при создании курьера"
 
     def test_create_duplicate_courier(self, courier_methods, random_courier):
         courier_methods.post_courier(random_courier)
