@@ -41,6 +41,16 @@
 - `allure-results/` — папка для отчетов Allure.
 - `conftest.py` — фикстуры для тестов.
 - `register_user.py` — файл с данными из задания для создания рандомного курьера.
+- `target/` — папка с отчетами по тестам. В гитхаб загружена только одна папка, в которую сформирован общий отчет. 
+
+``` 
+pytest --alluredir=target/allure-results
+allure generate target/allure-results -o target/allure-report --clean
+allure open target/allure-report
+git add -f .\target\allure-report\.
+git commit -m "add allure report"
+git push 
+```
 
 ## Тестовые данные
 В проекте используются 4 набора данных для заказа.
