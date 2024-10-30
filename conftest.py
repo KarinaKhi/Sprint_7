@@ -16,7 +16,7 @@ def random_courier(courier_methods):
     courier_data = register_new_courier_and_return_login_password()
     status_code, response_data = courier_methods.post_courier(courier_data)
     courier_data['id'] = response_data.get('id')
-    yield courier_data
+    yield status_code, response_data
     courier_methods.delete_courier(courier_data['id'])
 
 
